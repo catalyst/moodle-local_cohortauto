@@ -28,7 +28,8 @@ defined('MOODLE_INTERNAL') || die;
  * This function prepares complete $USER object for manipulation.
  * Strip long strings and reject some keys.
  *
- * @param array $data Complete $USER object with custom profile fields loaded
+ * @author       2011 Andrew "Kama" (kamasutra12@yandex.ru) in auth_mcae
+ * @param array  $data Complete $USER object with custom profile fields loaded
  * @return array Cleaned array created from $data
  */
 function cohortauto_prepare_profile_data($data, $replaceempty = 'EMPTY') {
@@ -67,11 +68,12 @@ function cohortauto_prepare_profile_data($data, $replaceempty = 'EMPTY') {
 /**
  * This function prepares help section for settings page.
  *
- * @param array $data Result of mcae_prepare_profile_data function
+ * @author       2011 Andrew "Kama" (kamasutra12@yandex.ru) in auth_mcae
+ *
+ * @param array  $data Result of mcae_prepare_profile_data function
  * @param string $prefix String prefix
- * @param array $result Variable to store result
+ * @param array  $result Variable to store result
  */
-
 function cohortauto_print_profile_data($data, $prefix = '', &$result) {
     if (is_array($data)) {
         foreach ($data as $key => $val) {
