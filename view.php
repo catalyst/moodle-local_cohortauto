@@ -64,7 +64,6 @@ if (empty($userlist)) {
         $data[] = array($user->usrname, '<a href="'.$link.'">'.get_string('userprofile', 'local_cohortauto').'</a>');
         $total++;
     };
-    $data[] = array(get_string('total', 'local_cohortauto'), $total);
 };
 
 $table = new html_table();
@@ -83,5 +82,9 @@ echo '<input type="submit"></form><br />';
 
 echo '<br>';
 echo html_writer::table($table);
+if ($total > 0) {
+    echo html_writer::div(get_string('total', 'local_cohortauto') . ": $total");
+}
+
 
 echo $OUTPUT->footer();
