@@ -1,0 +1,28 @@
+/* Cohort managed by local_cohortauto. */
+tr.cohortauto.cohort-managed:nth-child(even) {
+  background-color: #cfc;
+}
+tr.cohortauto.cohort-managed:nth-child(odd) {
+  background-color: #beb;
+}
+
+/* Cohort managed by auth_mcae (deprecated). */
+tr.cohortauto.cohort-deprecated:nth-child(even) {
+  background-color: #fcc;
+}
+tr.cohortauto.cohort-deprecated:nth-child(odd) {
+  background-color: #fbb;
+}
+
+/* Unmanaged (manual) cohort. */
+tr.cohortauto.cohort-unmanaged:nth-child(even) {
+  background-color: #ffb;
+}
+tr.cohortauto.cohort-unmanaged:nth-child(odd) {
+  background-color: #eea;
+}
+
+/* Font stylings for cohort table. */
+tr.cohortauto td.cell.c1 { font-weight: bold; }
+tr.cohortauto td.cell.c2 { font-style: italic; }
+tr.cohortauto td.cell.c4 { font-weight: bold; }
