@@ -35,7 +35,20 @@ $string['link'] = 'Link';
 $string['emptycohort'] = 'Empty cohort';
 $string['viewcohort'] = 'Cohort view';
 $string['userprofile'] = 'User profile &gt;&gt;';
-$string['total'] = 'Total';
+$string['total'] = 'Total users in cohort';
+
+// Convert strings.
+$string['cohortoper_help'] = '<p>Select cohorts you want to convert.</p>'
+    . '<p><b>NOTE:</b> <i>You <b>cannot</b> edit converted cohorts manually!</i></p>'
+    . '<p>Backup your database!!!</p>';
+$string['userlink'] = 'View users';
+$string['heading_cohortname'] = 'Cohort name';
+$string['heading_component'] = 'Managed by';
+$string['heading_count'] = '# Users';
+$string['heading_link'] = 'Link';
+$string['convert_do'] = 'Convert to local_cohortauto';
+$string['convert_restore'] = 'Convert to manual';
+$string['convert_delete'] = 'Delete cohorts';
 
 // Settings strings.
 $string['mainrule_fld'] = 'Main template (one value per line)';
