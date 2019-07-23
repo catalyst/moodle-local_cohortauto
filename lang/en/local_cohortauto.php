@@ -23,9 +23,10 @@
  */
 
 $string['pluginname'] = 'Auto-cohort plugin';
+$string['plugindescription'] = 'This plugin provides a way to automatically add users into cohorts.';
 
 // Admin strings.
-$string['label_cohortautotool'] = 'CohortAuto operations';
+$string['label_cohortautotool'] = 'CohortAuto conversion operations';
 $string['label_cohortautoview'] = 'CohortAuto viewer';
 
 // View strings.
@@ -49,6 +50,7 @@ $string['heading_link'] = 'Link';
 $string['convert_do'] = 'Convert to local_cohortauto';
 $string['convert_restore'] = 'Convert to manual';
 $string['convert_delete'] = 'Delete cohorts';
+$string['error_unknown_action'] = 'Unknown form action: \'{$a}\'';
 
 // Settings strings.
 $string['mainrule_fld'] = 'Main template (one value per line)';
