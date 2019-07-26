@@ -157,24 +157,21 @@ class local_cohortauto_handler {
      * @param object $user  The user whose profile needs to be inspected
      */
     public function user_profile_hook(&$user) {
-        global $DB, $SESSION;
+        global $DB;
 
         $context = context_system::instance();
         $uid = $user->id;
         // Ignore users from don't_touch list.
         $ignore = explode(",", $this->config->donttouchusers);
 
+        // Skip explicitly ignored users.
         if (!empty($ignore) AND array_search($user->username, $ignore) !== false) {
-            // TODO: Find out what this actually does.
-            // I think it's probably not relevant anymore.
-            $SESSION->mcautoenrolled = true;
-            return true;
+            return;
         };
 
         // Ignore guests.
         if (isguestuser($user)) {
-            $SESSION->mcautoenrolled = true;
-            return true;
+            return;
         };
 
         // Get cohorts.
@@ -238,8 +235,7 @@ class local_cohortauto_handler {
         if (!empty($mainrule)) {
             $mainrulearray = explode($delim, $mainrule);
         } else {
-            $SESSION->mcautoenrolled = true;
-            return; // Empty mainrule; no processing to do.
+            return; // Empty mainrule; no further processing to do.
         };
 
         // Find %split function.
@@ -294,7 +290,6 @@ class local_cohortauto_handler {
             };
             $processed[] = $cid;
         };
-        $SESSION->mcautoenrolled = true;
 
         // Remove users from cohorts if necessary.
         if ($this->config->enableunenrol == 1) {
