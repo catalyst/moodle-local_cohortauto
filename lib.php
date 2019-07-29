@@ -24,6 +24,9 @@
 
 defined('MOODLE_INTERNAL') || die;
 
+require_once($CFG->dirroot . '/user/profile/lib.php');
+require_once($CFG->dirroot . '/cohort/lib.php');
+
 /**
  * This function prepares complete $USER object for manipulation.
  * Strip long strings and reject some keys.
