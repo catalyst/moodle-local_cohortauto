@@ -25,16 +25,24 @@
 define('CLI_SCRIPT', true);
 
 require(__DIR__.'/../../../config.php');
-require_once($CFG->libdir . "/clilib.php");
 require_once($CFG->libdir . '/adminlib.php');
+require_once($CFG->libdir . '/clilib.php');
 require_once($CFG->dirroot . '/local/cohortauto/lib.php');
 
-// TODO: find a way to assert permission to create cohorts.
+/* Emulate normal user session. This isn't a direct cron script, but assuming
+ * the role of an admin user avoids problems with observers in other modules
+ * checking permissions and complaining when a bare script doesn't have any.
+ * So for the purposes of synchronising users, we're an admin user.
+ */
+cron_setup_user(get_admin());
 
 $handler = new local_cohortauto_handler();
 $users = $DB->get_recordset('user', array('deleted' => 0));
+// DB caching means the repeat query for counting is very low cost.
+$usercount = $DB->count_records('user', array('deleted' => 0));
 
 cli_writeln("Beginning user cohort sync...");
+
 $transaction = $DB->start_delegated_transaction();
 
 foreach ($users as $user) {
@@ -46,4 +54,4 @@ foreach ($users as $user) {
 $users->close();
 
 $transaction->allow_commit();
-cli_writeln("Sync finished.");
+cli_writeln("Sync for $usercount users finished.");

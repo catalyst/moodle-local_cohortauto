@@ -25,11 +25,16 @@
 define('CLI_SCRIPT', true);
 
 require(__DIR__.'/../../../config.php');
-require_once($CFG->libdir . '/clilib.php');
 require_once($CFG->libdir . '/adminlib.php');
+require_once($CFG->libdir . '/clilib.php');
 require_once($CFG->dirroot . '/local/cohortauto/lib.php');
 
-// TODO: find a way to assert permission to create cohorts.
+/* Emulate normal user session. This isn't a direct cron script, but assuming
+ * the role of an admin user avoids problems with observers in other modules
+ * checking permissions and complaining when a bare script doesn't have any.
+ * So for the purposes of synchronising users, we're an admin user.
+ */
+cron_setup_user(get_admin());
 
 $username = cli_input('Synchronise cohorts for username:');
 
