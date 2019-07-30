@@ -63,7 +63,7 @@ $string['secondrule_fld'] = 'Empty field text';
 $string['replace_arr'] = 'Replace array (one value per line, in the format: old_val|new_val)';
 $string['donttouchusers'] = 'Ignore users';
 $string['donttouchusers_help'] = 'Comma-separated usernames.';
-$string['enableunenrol'] = 'Enable automatic unenrol';
+$string['enableunenrol'] = 'Enable automatic removal from managed cohorts';
 
 // Privacy API strings.
 $string['privacy:metadata'] = 'Auto-cohort plugin does not store any user data.';
