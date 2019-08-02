@@ -28,6 +28,9 @@ defined('MOODLE_INTERNAL') || die;
  * User profile event observer class.
  *
  * Delegates profile and cohort processing to lib/local_cohortauto_handler().
+ *
+ * @copyright  2019 Catalyst IT
+ * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 class local_cohortauto_observer {
     /**

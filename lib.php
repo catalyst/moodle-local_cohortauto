@@ -100,6 +100,9 @@ function cohortauto_print_profile_data($data, $prefix = '', &$result) {
  *
  * This is usually triggered by user profile update events, but can also be
  * triggered by CLI scripts.
+ *
+ * @copyright  2019 Catalyst IT
+ * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 class local_cohortauto_handler {
     /**
