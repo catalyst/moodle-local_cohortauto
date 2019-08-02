@@ -1,28 +1,34 @@
 /* Cohort managed by local_cohortauto. */
 .path-admin-local-cohortauto tr.cohortauto.cohort-managed:nth-child(even) {
-  background-color: #cfc;
+    background-color: #cfc;
 }
 .path-admin-local-cohortauto tr.cohortauto.cohort-managed:nth-child(odd) {
-  background-color: #beb;
+    background-color: #beb;
 }
 
 /* Cohort managed by auth_mcae (deprecated). */
 .path-admin-local-cohortauto tr.cohortauto.cohort-deprecated:nth-child(even) {
-  background-color: #fcc;
+    background-color: #fcc;
 }
 .path-admin-local-cohortauto tr.cohortauto.cohort-deprecated:nth-child(odd) {
-  background-color: #fbb;
+    background-color: #fbb;
 }
 
 /* Unmanaged (manual) cohort. */
 .path-admin-local-cohortauto tr.cohortauto.cohort-unmanaged:nth-child(even) {
-  background-color: #ffb;
+    background-color: #ffb;
 }
 .path-admin-local-cohortauto tr.cohortauto.cohort-unmanaged:nth-child(odd) {
-  background-color: #eea;
+    background-color: #eea;
 }
 
 /* Font stylings for cohort table. */
-.path-admin-local-cohortauto tr.cohortauto td.cell.c1 { font-weight: bold; }
-.path-admin-local-cohortauto tr.cohortauto td.cell.c2 { font-style: italic; }
-.path-admin-local-cohortauto tr.cohortauto td.cell.c4 { font-weight: bold; }
+.path-admin-local-cohortauto tr.cohortauto td.cell.c1 {
+    font-weight: bold;
+}
+.path-admin-local-cohortauto tr.cohortauto td.cell.c2 {
+    font-style: italic;
+}
+.path-admin-local-cohortauto tr.cohortauto td.cell.c4 {
+    font-weight: bold;
+}

@@ -33,6 +33,7 @@ require_once($CFG->dirroot . '/cohort/lib.php');
  *
  * @author       2011 Andrew "Kama" (kamasutra12@yandex.ru) in auth_mcae
  * @param array  $data Complete $USER object with custom profile fields loaded
+ * @param string $replaceempty Placeholder value to use for empty entries.
  * @return array Cleaned array created from $data
  */
 function cohortauto_prepare_profile_data($data, $replaceempty = 'EMPTY') {
@@ -94,8 +95,19 @@ function cohortauto_print_profile_data($data, $prefix = '', &$result) {
     }
 }
 
-
+/**
+ * Event handler class for user profile information changes.
+ *
+ * This is usually triggered by user profile update events, but can also be
+ * triggered by CLI scripts.
+ */
 class local_cohortauto_handler {
+    /**
+     * The component name of the plugin.
+     *
+     * Used in setting config, and in the cohort table to specify the
+     * managing component.
+     */
     const COMPONENT_NAME = 'local_cohortauto';
 
     /**
@@ -114,7 +126,9 @@ class local_cohortauto_handler {
     /**
      * Processes and stores configuration data for this plugin.
      * $this->config->somefield
+     *
      * @author 2011 Andrew "Kama" (kamasutra12@yandex.ru) in auth_mcae
+     * @param object $config The configuration object.
      */
     public function process_config($config) {
         // Set to defaults if undefined.

@@ -24,6 +24,11 @@
 
 defined('MOODLE_INTERNAL') || die;
 
+/**
+ * User profile event observer class.
+ *
+ * Delegates profile and cohort processing to lib/local_cohortauto_handler().
+ */
 class local_cohortauto_observer {
     /**
      * Observer function to handle the user created event
