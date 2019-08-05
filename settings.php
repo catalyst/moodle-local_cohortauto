@@ -57,21 +57,11 @@ if ($ADMIN->fulltree) {
 
     // Additional values for email.
     if (!empty($fldlist['email'])) {
-        list($emailusername, $emaildomain) = explode("@", $fldlist['email']);
-
-        // Email root domain.
-        $emaildomainarray = explode('.', $emaildomain);
-        if (count($emaildomainarray) > 2) {
-            $emailrootdomain = $emaildomainarray[count($emaildomainarray) - 2].'.'.
-                $emaildomainarray[count($emaildomainarray) - 1];
-        } else {
-            $emailrootdomain = $emaildomain;
-        }
         $fldlist['email'] = array(
-            'full' => $fldlist['email'],
-            'username' => $emailusername,
-            'domain' => $emaildomain,
-            'rootdomain' => $emailrootdomain
+            'full' => 'exampleuser@mail.example.com',
+            'username' => 'exampleuser',
+            'domain' => 'mail.example.com',
+            'rootdomain' => 'example.com'
         );
     }
 
