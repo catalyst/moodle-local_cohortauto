@@ -83,7 +83,7 @@ echo '<input type="submit"></form><br />';
 echo '<br>';
 echo html_writer::table($table);
 if ($total > 0) {
-    echo html_writer::div(get_string('total', 'local_cohortauto') . ": $total");
+    echo html_writer::div(get_string('total', 'local_cohortauto', $total));
 }
 
 

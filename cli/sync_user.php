@@ -43,8 +43,8 @@ if ($username) {
         $handler = new local_cohortauto_handler();
         $handler->user_profile_hook($user);
 
-        cli_writeln("Sync for user '$username' complete.");
+        cli_writeln(get_string('cli_user_sync_complete', 'local_cohortauto', $username));
     } else {
-        cli_error("User '$username' not found.");
+        cli_error(get_string('cli_user_sync_notfound', 'local_cohortauto', $username));
     }
 }
