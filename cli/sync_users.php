@@ -41,17 +41,17 @@ $users = $DB->get_recordset('user', array('deleted' => 0));
 // DB caching means the repeat query for counting is very low cost.
 $usercount = $DB->count_records('user', array('deleted' => 0));
 
-cli_writeln("Beginning user cohort sync...");
+cli_writeln(get_string('cli_sync_users_begin', 'local_cohortauto'));
 
 $transaction = $DB->start_delegated_transaction();
 
 foreach ($users as $user) {
     $username = $user->username;
-    cli_write("  User '{$username}' ... ");
+    cli_write(get_string('cli_sync_users_userstart', 'local_cohortauto', $username));
     $handler->user_profile_hook($user);
-    cli_writeln("done.");
+    cli_writeln(get_string('cli_sync_users_userdone', 'local_cohortauto'));
 }
 $users->close();
 
 $transaction->allow_commit();
-cli_writeln("Sync for $usercount users finished.");
+cli_writeln(get_string('cli_sync_users_finished', 'local_cohortauto', $usercount));

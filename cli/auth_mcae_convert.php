@@ -33,4 +33,4 @@ $updatesql = "UPDATE {cohort}
 
 $DB->execute($updatesql);
 
-cli_writeln("Migrated any auth_mcae cohorts to local_cohortauto.");
+cli_writeln(get_string('cli_migrated_auth_mcae', 'local_cohortauto'));
