@@ -260,12 +260,38 @@ class local_cohortauto_handler {
 
         // Find %split function.
         foreach ($mainrulearray as $item) {
-            if (preg_match('/(?<full>%split\((?<fld>\w*)\|(?<delim>.{1,5})\))/', $item, $splitparams)) {
+            if (preg_match('/(?<full>%split\((?<fld>.*)\|(?<delim>.{1,5})\))/', $item, $splitparams)) {
                 // Split!
-                $parts = explode($splitparams['delim'], $userprofiledata[$splitparams['fld']]);
+                $splitparams['fldkey'] = sha1($splitparams['fld']);
+                $withruleinternalreplacement = preg_match('/(?<fld>.*)#(?<pattern>.*)#(?<replacement>\$\d{1,2})/', $splitparams['fld'],$ruleinternalreplacement);
+                if ($withruleinternalreplacement) {
+                    $splitparams['fld'] = $ruleinternalreplacement['fld'];
+                }
+
+                // Supporting . notation in fld definition
+                $fieldvalue = '';
+                $userprofileaccessors = preg_split('/\./', $splitparams['fld'], -1, PREG_SPLIT_NO_EMPTY);
+                if (count($userprofileaccessors) > 1) {
+                    $userprofiledataaccessed = $userprofiledata;
+                    foreach ($userprofileaccessors as $accessor) {
+                        if (!isset($userprofiledataaccessed[$accessor])) {
+                            $fieldvalue = '';
+                            break;
+                        }
+                        $userprofiledataaccessed = $userprofiledataaccessed[$accessor];
+                        $fieldvalue = $userprofiledataaccessed;
+                    }
+                } else {
+                    $fieldvalue = $userprofiledata[$splitparams['fld']];
+                }
+                $parts = preg_split('/' . $splitparams['delim'] . '/', $fieldvalue, -1, PREG_SPLIT_NO_EMPTY);
                 foreach ($parts as $key => $val) {
-                    $userprofiledata[$splitparams['fld']."_$key"] = $val;
-                    $templates[] = strtr($item, array("{$splitparams['full']}" => "{{ ".$splitparams['fld']."_$key }}"));
+                    $val = trim($val);
+                    if ($withruleinternalreplacement) {
+                        $val = preg_replace('/'.$ruleinternalreplacement['pattern'].'/i', $ruleinternalreplacement['replacement'], $val);
+                    }
+                    $userprofiledata[$splitparams['fldkey']."_$key"] = $val;
+                    $templates[] = strtr($item, array("{$splitparams['full']}" => "{{ ".$splitparams['fldkey']."_$key }}"));
                 }
             } else {
                 $templates[] = $item;
@@ -298,6 +324,8 @@ class local_cohortauto_handler {
                 $newcohort->description = "created ".date("d-m-Y");
                 $newcohort->contextid = $context->id;
                 $newcohort->idnumber = '';
+                // By default, only visible for admins.
+                $newcohort->visible = 0;
                 if ($this->config->enableunenrol == 1) {
                     $newcohort->component = self::COMPONENT_NAME;
                 };
