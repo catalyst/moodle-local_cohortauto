@@ -50,7 +50,7 @@ function cohortauto_prepare_profile_data($data, $replaceempty = 'EMPTY') {
                     } else {
                         $str = ($val === true) ? 'true' : format_string("$val");
                     }
-                    $newdata[$key] = substr($str, 0, 100);
+                    $newdata[$key] = substr($str, 0, 2048);
                 }
             }
         }
