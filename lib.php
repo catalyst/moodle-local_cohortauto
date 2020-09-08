@@ -194,6 +194,11 @@ class local_cohortauto_handler {
             return;
         };
 
+        // Ignore users with no email address (probably UNIT tests.)
+        if (empty($user->email)) {
+            return;
+        }
+
         // Get cohorts.
         $params = array(
             'contextid' => $context->id,
