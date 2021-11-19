@@ -291,29 +291,31 @@ class local_cohortauto_handler {
                 continue;
             };
 
-            $cid = array_search($cohortname, $cohortslist);
-            if ($cid !== false) {
-                if (!$DB->record_exists('cohort_members', array('cohortid' => $cid, 'userid' => $user->id))) {
+            if ($user->suspended != 1) {
+                $cohortname = strtolower($cohortname);
+                $cid = array_search($cohortname, $cohortslist);
+                if ($cid !== false) {
+                    if (!$DB->record_exists('cohort_members', array('cohortid' => $cid, 'userid' => $user->id))) {
+                        cohort_add_member($cid, $user->id);
+                    };
+                } else {
+                    // Cohort with this name does not exist, so create a new one.
+                    $newcohort = new stdClass();
+                    $newcohort->name = $cohortname;
+                    $newcohort->description = "created ".date("d-m-Y");
+                    $newcohort->contextid = $context->id;
+                    $newcohort->idnumber = '';
+                    if ($this->config->enableunenrol == 1) {
+                        $newcohort->component = self::COMPONENT_NAME;
+                    };
+                    $cid = cohort_add_cohort($newcohort);
+                    // Add new cohort into the list to avoid creating new ones with same name.
+                    $cohortslist[$cid] = $cohortname;
+                    // Add user to the new cohort.
                     cohort_add_member($cid, $user->id);
                 };
-            } else {
-                // Cohort with this name does not exist, so create a new one.
-                $newcohort = new stdClass();
-                $newcohort->name = $cohortname;
-                $newcohort->description = "created ".date("d-m-Y");
-                $newcohort->contextid = $context->id;
-                $newcohort->idnumber = '';
-                if ($this->config->enableunenrol == 1) {
-                    $newcohort->component = self::COMPONENT_NAME;
-                };
-                $cid = cohort_add_cohort($newcohort);
-                // Add new cohort into the list to avoid creating new ones with same name.
-                $cohortslist[$cid] = $cohortname;
-                // Add user to the new cohort.
-                cohort_add_member($cid, $user->id);
-
+                $processed[] = $cid;
             };
-            $processed[] = $cid;
         };
 
         // Remove users from cohorts if necessary.
