@@ -154,15 +154,49 @@ class local_cohortauto_handler {
         if (!isset($config->enableunenrol)) {
             $config->enableunenrol = 0;
         }
+        if (!isset($config->allowedemaildomains)) {
+            $config->allowedemaildomains = '';
+        }
         // Save settings.
-        set_config('mainrule_fld',   $config->mainrule_fld,   self::COMPONENT_NAME);
-        set_config('secondrule_fld', $config->secondrule_fld, self::COMPONENT_NAME);
-        set_config('replace_arr',    $config->replace_arr,    self::COMPONENT_NAME);
-        set_config('delim',          $config->delim,          self::COMPONENT_NAME);
-        set_config('donttouchusers', $config->donttouchusers, self::COMPONENT_NAME);
-        set_config('enableunenrol',  $config->enableunenrol,  self::COMPONENT_NAME);
+        set_config('mainrule_fld',          $config->mainrule_fld,         self::COMPONENT_NAME);
+        set_config('secondrule_fld',        $config->secondrule_fld,       self::COMPONENT_NAME);
+        set_config('replace_arr',           $config->replace_arr,          self::COMPONENT_NAME);
+        set_config('delim',                 $config->delim,                self::COMPONENT_NAME);
+        set_config('donttouchusers',        $config->donttouchusers,       self::COMPONENT_NAME);
+        set_config('enableunenrol',         $config->enableunenrol,        self::COMPONENT_NAME);
+        set_config('allowedemaildomains',   $config->allowedemaildomains,  self::COMPONENT_NAME);
 
         return true;
+    }
+
+    /**
+     * Check to see if a user's email address is included in the allow list.
+     *
+     * @param  object $user The user object for the user sending emails.
+     * @return bool returns true if the user is included in the allow list.
+     */
+    protected function included_in_allow_list($user) {
+
+        $alloweddomains = $this->config->allowedemaildomains;
+        $usersemaildomain = '';
+
+        if (!isset($alloweddomains) || empty(trim($alloweddomains))) {
+            // Allowed domains is empty / not configured - allow everyone.
+            return true;
+        }
+
+        $alloweddomains = array_map('trim', explode("\n", $alloweddomains));
+
+        if (isset($user->email)) {
+            $usersemaildomain = substr(strtolower($user->email), strpos($user->email, '@') + 1);
+        }
+
+        // Email is in the list of allowed domains for sending email.
+        if (in_array($usersemaildomain, $alloweddomains)) {
+            return true;
+        }
+
+        return false;
     }
 
     /**
@@ -194,8 +228,13 @@ class local_cohortauto_handler {
             return;
         };
 
-        // Ignore users with no email address (probably UNIT tests.)
+        // Ignore users with no email address (probably UNIT tests.
         if (empty($user->email)) {
+            return;
+        }
+
+        // Users email domain must be included in the allow list.
+        if (!$this->included_in_allow_list($user)) {
             return;
         }
 
@@ -290,30 +329,34 @@ class local_cohortauto_handler {
             if ($cohortname == '') {
                 continue;
             };
+            if (!empty(get_config('local_cohortauto', 'lowercase'))) {
+                $cohortname = strtolower($cohortname);
+            }
 
-            $cid = array_search($cohortname, $cohortslist);
-            if ($cid !== false) {
-                if (!$DB->record_exists('cohort_members', array('cohortid' => $cid, 'userid' => $user->id))) {
+            if ($user->suspended != 1) {
+                $cid = array_search($cohortname, $cohortslist);
+                if ($cid !== false) {
+                    if (!$DB->record_exists('cohort_members', array('cohortid' => $cid, 'userid' => $user->id))) {
+                        cohort_add_member($cid, $user->id);
+                    };
+                } else {
+                    // Cohort with this name does not exist, so create a new one.
+                    $newcohort = new stdClass();
+                    $newcohort->name = $cohortname;
+                    $newcohort->description = "created ".date("d-m-Y");
+                    $newcohort->contextid = $context->id;
+                    $newcohort->idnumber = '';
+                    if ($this->config->enableunenrol == 1) {
+                        $newcohort->component = self::COMPONENT_NAME;
+                    };
+                    $cid = cohort_add_cohort($newcohort);
+                    // Add new cohort into the list to avoid creating new ones with same name.
+                    $cohortslist[$cid] = $cohortname;
+                    // Add user to the new cohort.
                     cohort_add_member($cid, $user->id);
                 };
-            } else {
-                // Cohort with this name does not exist, so create a new one.
-                $newcohort = new stdClass();
-                $newcohort->name = $cohortname;
-                $newcohort->description = "created ".date("d-m-Y");
-                $newcohort->contextid = $context->id;
-                $newcohort->idnumber = '';
-                if ($this->config->enableunenrol == 1) {
-                    $newcohort->component = self::COMPONENT_NAME;
-                };
-                $cid = cohort_add_cohort($newcohort);
-                // Add new cohort into the list to avoid creating new ones with same name.
-                $cohortslist[$cid] = $cohortname;
-                // Add user to the new cohort.
-                cohort_add_member($cid, $user->id);
-
+                $processed[] = $cid;
             };
-            $processed[] = $cid;
         };
 
         // Remove users from cohorts if necessary.
@@ -337,5 +380,4 @@ class local_cohortauto_handler {
             };
         };
     }
-
 }

@@ -60,6 +60,9 @@ $string['replace_arr'] = 'Replace array (one value per line, in the format: old_
 $string['donttouchusers'] = 'Ignore users';
 $string['donttouchusers_help'] = 'Comma-separated usernames.';
 $string['enableunenrol'] = 'Enable automatic removal from managed cohorts';
+$string['allowedemaildomains'] = 'Allowed email domains';
+$string['configallowedemaildomains'] = 'List of email domains of users to include in the cohort sync process - if empty, all users will be processed.';
+$string['lowercase'] = 'Set cohort name lower case';
 
 // CLI strings.
 $string['cli_migrated_auth_mcae'] = "Migrated any auth_mcae cohorts to local_cohortauto.";

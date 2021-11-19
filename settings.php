@@ -104,6 +104,18 @@ if ($hassiteconfig) { // Needs this condition or there is error on login page.
             get_string('enableunenrol', 'local_cohortauto'),
             '', 0)
         );
+        $settings->add(new admin_setting_configtextarea(
+            'local_cohortauto/allowedemaildomains',
+            get_string('allowedemaildomains', 'local_cohortauto'),
+            get_string('configallowedemaildomains', 'local_cohortauto'),
+            '')
+        );
+
+        $settings->add(new admin_setting_configcheckbox(
+                'local_cohortauto/lowercase',
+                get_string('lowercase', 'local_cohortauto'),
+                '', 0)
+        );
         $ADMIN->add('localplugins', $settings);
     }
 }
