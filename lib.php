@@ -324,13 +324,14 @@ class local_cohortauto_handler {
                 continue;
             };
 
+            $cohortname = strtolower($cohortname);
+
             // Users email domain must be included in the allow list.
             if (!$this->included_in_allow_list($user)) {
                 continue;
             }
 
             if ($user->suspended != 1) {
-                $cohortname = strtolower($cohortname);
                 $cid = array_search($cohortname, $cohortslist);
                 if ($cid !== false) {
                     if (!$DB->record_exists('cohort_members', array('cohortid' => $cid, 'userid' => $user->id))) {
