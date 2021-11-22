@@ -154,15 +154,47 @@ class local_cohortauto_handler {
         if (!isset($config->enableunenrol)) {
             $config->enableunenrol = 0;
         }
+        if (!isset($config->allowedemaildomains)) {
+            $config->allowedemaildomains = '';
+        }
         // Save settings.
-        set_config('mainrule_fld',   $config->mainrule_fld,   self::COMPONENT_NAME);
-        set_config('secondrule_fld', $config->secondrule_fld, self::COMPONENT_NAME);
-        set_config('replace_arr',    $config->replace_arr,    self::COMPONENT_NAME);
-        set_config('delim',          $config->delim,          self::COMPONENT_NAME);
-        set_config('donttouchusers', $config->donttouchusers, self::COMPONENT_NAME);
-        set_config('enableunenrol',  $config->enableunenrol,  self::COMPONENT_NAME);
+        set_config('mainrule_fld',          $config->mainrule_fld,         self::COMPONENT_NAME);
+        set_config('secondrule_fld',        $config->secondrule_fld,       self::COMPONENT_NAME);
+        set_config('replace_arr',           $config->replace_arr,          self::COMPONENT_NAME);
+        set_config('delim',                 $config->delim,                self::COMPONENT_NAME);
+        set_config('donttouchusers',        $config->donttouchusers,       self::COMPONENT_NAME);
+        set_config('enableunenrol',         $config->enableunenrol,        self::COMPONENT_NAME);
+        set_config('allowedemaildomains',   $config->allowedemaildomains,  self::COMPONENT_NAME);
 
         return true;
+    }
+
+    /**
+     * Check to see if a user's email address is included in the allow list.
+     *
+     * @param  object $user The user object for the user sending emails.
+     * @return bool returns true if the user is included in the allow list.
+     */
+    protected function included_in_allow_list($user) {
+
+        $alloweddomains = $this->config->allowedemaildomains;
+        $usersemaildomain = '';
+
+        if (!isset($allowedemaildomains) || empty(trim($allowedemaildomains))) {
+            return false;
+        }
+        $alloweddomains = array_map('trim', explode("\n", $allowedemaildomains));
+
+        if (isset($user->email)) {
+            $usersemaildomain = substr($user->email, strpos($user->email, '@') + 1);
+        }
+
+        // Email is in the list of allowed domains for sending email.
+        if (in_array($usersemaildomain, $alloweddomains)) {
+            return true;
+        }
+
+        return false;
     }
 
     /**
@@ -194,7 +226,7 @@ class local_cohortauto_handler {
             return;
         };
 
-        // Ignore users with no email address (probably UNIT tests.)
+        // Ignore users with no email address (probably UNIT tests.
         if (empty($user->email)) {
             return;
         }
@@ -291,6 +323,11 @@ class local_cohortauto_handler {
                 continue;
             };
 
+            // Users email domain must be included in the allow list.
+            if (!included_in_allow_list($user)) {
+                continue;
+            }
+
             if ($user->suspended != 1) {
                 $cohortname = strtolower($cohortname);
                 $cid = array_search($cohortname, $cohortslist);
@@ -339,5 +376,4 @@ class local_cohortauto_handler {
             };
         };
     }
-
 }

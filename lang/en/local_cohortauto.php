@@ -60,6 +60,8 @@ $string['replace_arr'] = 'Replace array (one value per line, in the format: old_
 $string['donttouchusers'] = 'Ignore users';
 $string['donttouchusers_help'] = 'Comma-separated usernames.';
 $string['enableunenrol'] = 'Enable automatic removal from managed cohorts';
+$string['allowedemaildomains'] = 'Allowed email domains';
+$string['configallowedemaildomains'] = 'List email domains that are allowed to be disclosed in the "From" section of outgoing email. The default of "Empty" will use the No-reply address for all outgoing email. The use of wildcards is allowed e.g. *.example.com will allow emails sent from any subdomain of example.com, but not example.com itself. This will require separate entry.';
 
 // CLI strings.
 $string['cli_migrated_auth_mcae'] = "Migrated any auth_mcae cohorts to local_cohortauto.";
