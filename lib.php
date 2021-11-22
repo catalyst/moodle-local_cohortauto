@@ -180,10 +180,11 @@ class local_cohortauto_handler {
         $alloweddomains = $this->config->allowedemaildomains;
         $usersemaildomain = '';
 
-        if (!isset($allowedemaildomains) || empty(trim($allowedemaildomains))) {
+        if (!isset($alloweddomains) || empty(trim($alloweddomains))) {
             return false;
         }
-        $alloweddomains = array_map('trim', explode("\n", $allowedemaildomains));
+
+        $alloweddomains = array_map('trim', explode("\n", $alloweddomains));
 
         if (isset($user->email)) {
             $usersemaildomain = substr($user->email, strpos($user->email, '@') + 1);
@@ -324,7 +325,7 @@ class local_cohortauto_handler {
             };
 
             // Users email domain must be included in the allow list.
-            if (!included_in_allow_list($user)) {
+            if (!$this->included_in_allow_list($user)) {
                 continue;
             }
 
