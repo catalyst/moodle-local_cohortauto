@@ -48,7 +48,7 @@ function cohortauto_prepare_profile_data($data, $replaceempty = 'EMPTY') {
                     if ($val === '' or $val === ' ' or $val === null) {
                         $str = ($val === false) ? 'false' : $replaceempty;
                     } else {
-                        $str = ($val === true) ? 'true' : format_string("$val");
+                        $str = ($val === true) ? 'true' : strip_tags("$val");
                     }
                     $newdata[$key] = substr($str, 0, 2048);
                 }
@@ -58,7 +58,7 @@ function cohortauto_prepare_profile_data($data, $replaceempty = 'EMPTY') {
         if ($data === '' or $data === ' ' or $data === null) {
             $str = ($data === false) ? 'false' : $replaceempty;
         } else {
-            $str = ($data === true) ? 'true' : format_string("$data");
+            $str = ($data === true) ? 'true' : strip_tags("$data");
         }
         $newdata = substr($str, 0, 100);
     }
