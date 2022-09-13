@@ -77,7 +77,7 @@ function cohortauto_prepare_profile_data($data, $replaceempty = 'EMPTY') {
  * @param string $prefix String prefix
  * @param array  $result Variable to store result
  */
-function cohortauto_print_profile_data($data, $prefix = '', &$result) {
+function cohortauto_print_profile_data($data, $prefix, &$result) {
     if (is_array($data)) {
         foreach ($data as $key => $val) {
             if (is_array($val)) {
