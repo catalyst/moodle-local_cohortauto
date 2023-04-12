@@ -32,6 +32,7 @@ sure to make a copy of any settings from the older plugin that you wish to keep.
 * Visit the *Site administration - Notifications* page and follow the instructions
 
 ## Configuration and operation
+Visit the *Site administration - Users - Accounts - Cohort role synchronization * page
 
 Moodle uses the [Mustache](https://docs.moodle.org/dev/Templates) templating
 language for rendering data into HTML for presentation. This plugin reuses that
