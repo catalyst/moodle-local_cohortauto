@@ -258,23 +258,32 @@ class local_cohortauto_handler {
         profile_load_custom_fields($user);
         $userprofiledata = cohortauto_prepare_profile_data($user, $this->config->secondrule_fld);
 
-        // Additional values for email.
-        list($emailusername, $emaildomain) = explode("@", $userprofiledata['email']);
-
-        // Email root domain.
-        $emaildomainarray = explode('.', $emaildomain);
-        if (count($emaildomainarray) > 2) {
-            $emailrootdomain = $emaildomainarray[count($emaildomainarray) - 2].'.'.
-                               $emaildomainarray[count($emaildomainarray) - 1];
+        if (empty($userprofiledata['email'])) {
+            $userprofiledata['email'] = array(
+                'full' => '',
+                'username' => '',
+                'domain' => '',
+                'rootdomain' => '',
+            );
         } else {
-            $emailrootdomain = $emaildomain;
+            // Additional values for email.
+            list($emailusername, $emaildomain) = explode("@", $userprofiledata['email']);
+
+            // Email root domain.
+            $emaildomainarray = explode('.', $emaildomain);
+            if (count($emaildomainarray) > 2) {
+                $emailrootdomain = $emaildomainarray[count($emaildomainarray) - 2] . '.' .
+                    $emaildomainarray[count($emaildomainarray) - 1];
+            } else {
+                $emailrootdomain = $emaildomain;
+            }
+            $userprofiledata['email'] = array(
+                'full' => $userprofiledata['email'],
+                'username' => $emailusername,
+                'domain' => $emaildomain,
+                'rootdomain' => $emailrootdomain
+            );
         }
-        $userprofiledata['email'] = array(
-            'full' => $userprofiledata['email'],
-            'username' => $emailusername,
-            'domain' => $emaildomain,
-            'rootdomain' => $emailrootdomain
-        );
 
         // Set delimiter in use.
         $delimiter = $this->config->delim;
