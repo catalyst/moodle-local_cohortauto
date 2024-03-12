@@ -38,14 +38,14 @@ require_once($CFG->dirroot . '/cohort/lib.php');
  */
 function cohortauto_prepare_profile_data($data, $replaceempty = 'EMPTY') {
     $reject = array('ajax_updatable_user_prefs', 'sesskey', 'preference', 'editing', 'access', 'message_lastpopup', 'enrol');
-    if (is_array($data) or is_object($data)) {
+    if (is_array($data) || is_object($data)) {
         $newdata = array();
         foreach ($data as $key => $val) {
             if (!in_array($key, $reject)) {
-                if (is_array($val) or is_object($val)) {
+                if (is_array($val) || is_object($val)) {
                     $newdata[$key] = cohortauto_prepare_profile_data($val, $replaceempty);
                 } else {
-                    if ($val === '' or $val === ' ' or $val === null) {
+                    if ($val === '' || $val === ' ' || $val === null) {
                         $str = ($val === false) ? 'false' : $replaceempty;
                     } else {
                         $str = ($val === true) ? 'true' : strip_tags("$val");
@@ -55,7 +55,7 @@ function cohortauto_prepare_profile_data($data, $replaceempty = 'EMPTY') {
             }
         }
     } else {
-        if ($data === '' or $data === ' ' or $data === null) {
+        if ($data === '' || $data === ' ' || $data === null) {
             $str = ($data === false) ? 'false' : $replaceempty;
         } else {
             $str = ($data === true) ? 'true' : strip_tags("$data");
@@ -219,7 +219,7 @@ class local_cohortauto_handler {
         $ignore = explode(",", $this->config->donttouchusers);
 
         // Skip explicitly ignored users.
-        if (!empty($ignore) AND array_search($user->username, $ignore) !== false) {
+        if (!empty($ignore) && array_search($user->username, $ignore) !== false) {
             return;
         };
 
