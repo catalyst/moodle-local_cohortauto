@@ -311,7 +311,7 @@ class local_cohortauto_handler {
             return; // Empty mainrule; no further processing to do.
         };
 
-        // Find %split function.
+        // Find %split and %acc_split function.
         foreach ($mainrulearray as $item) {
             if (preg_match('/(?<full>%split\((?<fld>\w*)\|(?<delim>.{1,5})\))/', $item, $splitparams)) {
                 // Split!
@@ -320,10 +320,25 @@ class local_cohortauto_handler {
                     $userprofiledata[$splitparams['fld']."_$key"] = $val;
                     $templates[] = strtr($item, array("{$splitparams['full']}" => "{{ ".$splitparams['fld']."_$key }}"));
                 }
+            } if (preg_match('/(?<full>%acc_split\((?<fld>\w*)\|(?<delim>.{1,5})\))/', $item, $splitparams)) {
+                // Accumulated Split!
+                $parts = explode($splitparams['delim'], $userprofiledata[$splitparams['fld']]);
+                $accumulated = "";
+                foreach ($parts as $key => $val) {
+                    if(empty($accumulated)){
+                        $accumulated = $val;
+                    }
+                    else{
+                        $accumulated .= $splitparams['delim'].$val;
+                    }
+                    $userprofiledata[$splitparams['fld']."_$key"] = $accumulated;
+                    $templates[] = strtr($item, array("{$splitparams['full']}" => "{{ ".$splitparams['fld']."_$key }}"));
+                }
             } else {
                 $templates[] = $item;
             }
         }
+        
 
         $processed = array();
 
