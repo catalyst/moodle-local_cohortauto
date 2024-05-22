@@ -250,7 +250,7 @@ class local_cohortauto_handler {
 
         $cohortslist = array();
         foreach ($cohorts as $cohort) {
-            $cohortslist[$cohort->id] = format_string($cohort->name);;
+            $cohortslist[$cohort->id] = strip_tags("$cohort->name");
         }
 
         // Get advanced user data.
