@@ -63,6 +63,8 @@ $string['enableunenrol'] = 'Enable automatic removal from managed cohorts';
 $string['allowedemaildomains'] = 'Allowed email domains';
 $string['configallowedemaildomains'] = 'List of email domains of users to include in the cohort sync process - if empty, all users will be processed.';
 $string['lowercase'] = 'Set cohort name lower case';
+$string['debugonsync'] = 'Debug on sync';
+$string['debugonsyncdesc'] = 'When enabled, it shows the username of every user being processed. Otherwise, it is omitted.';
 
 // CLI strings.
 $string['cli_migrated_auth_mcae'] = "Migrated any auth_mcae cohorts to local_cohortauto.";

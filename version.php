@@ -24,7 +24,7 @@
 
 defined('MOODLE_INTERNAL') || die();
 
-$plugin->version   = 2021112300;
+$plugin->version   = 2024060300;
 $plugin->component = 'local_cohortauto';
 $plugin->maturity  = MATURITY_STABLE;
 $plugin->requires  = 2018051700;

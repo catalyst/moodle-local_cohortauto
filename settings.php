@@ -113,6 +113,12 @@ if ($hassiteconfig) { // Needs this condition or there is error on login page.
         get_string('lowercase', 'local_cohortauto'),
         '', 0)
     );
+    $settings->add(new admin_setting_configcheckbox(
+            'local_cohortauto/debugonsync',
+            get_string('debugonsync', 'local_cohortauto'),
+            get_string('debugonsyncdesc', 'local_cohortauto'),
+            0)
+    );
 
     $ADMIN->add('localplugins', $settings);
 }
