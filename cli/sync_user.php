@@ -25,6 +25,7 @@
 define('CLI_SCRIPT', true);
 
 require(__DIR__.'/../../../config.php');
+global $CFG, $DB;
 require_once($CFG->libdir . '/adminlib.php');
 require_once($CFG->libdir . '/clilib.php');
 require_once($CFG->dirroot . '/local/cohortauto/lib.php');
@@ -34,7 +35,7 @@ require_once($CFG->dirroot . '/local/cohortauto/lib.php');
  * checking permissions and complaining when a bare script doesn't have any.
  * So for the purposes of synchronising users, we're an admin user.
  */
-cron_setup_user(get_admin());
+\core\cron::setup_user(get_admin());
 
 $username = cli_input('Synchronise cohorts for username:');
 
