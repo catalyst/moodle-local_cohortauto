@@ -24,8 +24,8 @@
 
 defined('MOODLE_INTERNAL') || die();
 
-$plugin->version   = 2021112300;
+$plugin->version   = 2024060300;
 $plugin->component = 'local_cohortauto';
 $plugin->maturity  = MATURITY_STABLE;
-$plugin->requires  = 2018051700;
+$plugin->requires  = 2023042400; // Moodle 4.2, 24 April 2023, https://moodledev.io/general/releases#moodle-42.
 $plugin->release   = '1.1';
