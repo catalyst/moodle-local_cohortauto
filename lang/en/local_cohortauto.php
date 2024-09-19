@@ -77,3 +77,7 @@ $string['cli_sync_users_finished'] = 'Sync for {$a} users finished.';
 
 // Privacy API strings.
 $string['privacy:metadata'] = 'Auto-cohort plugin does not store any user data.';
+
+// Cohorts visibility.
+$string['visible'] = 'Visible';
+$string['visibledesc'] = 'Choose the default visibility when creating new cohorts.';
