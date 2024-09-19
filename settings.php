@@ -120,5 +120,12 @@ if ($hassiteconfig) { // Needs this condition or there is error on login page.
             0)
     );
 
+    $settings->add(new admin_setting_configcheckbox(
+            'local_cohortauto/visible',
+            get_string('visible', 'local_cohortauto'),
+            get_string('visibledesc', 'local_cohortauto'),
+            1)
+    );
+
     $ADMIN->add('localplugins', $settings);
 }

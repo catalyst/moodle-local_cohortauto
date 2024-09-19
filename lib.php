@@ -360,6 +360,9 @@ class local_cohortauto_handler {
         }
 
         $processed = array();
+        $defaultvisibility = $this->config->visible;
+        // Moved here for performance.
+        $tolowercase = isset($this->config->lowercase) && !empty($this->config->lowercase);
 
         // Apply templates and process the user's cohort memberships.
         foreach ($templates as $cohort) {
@@ -372,7 +375,7 @@ class local_cohortauto_handler {
             if ($cohortname == '') {
                 continue;
             };
-            if (!empty(get_config('local_cohortauto', 'lowercase'))) {
+            if ($tolowercase) {
                 $cohortname = strtolower($cohortname);
             }
 
@@ -389,6 +392,7 @@ class local_cohortauto_handler {
                     $newcohort->description = "created ".date("d-m-Y");
                     $newcohort->contextid = $context->id;
                     $newcohort->idnumber = '';
+                    $newcohort->visible = $defaultvisibility;
                     if ($this->config->enableunenrol == 1) {
                         $newcohort->component = self::COMPONENT_NAME;
                     };
