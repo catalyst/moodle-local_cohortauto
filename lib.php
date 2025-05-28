@@ -114,6 +114,16 @@ class local_cohortauto_handler {
     const COMPONENT_NAME = 'local_cohortauto';
 
     /**
+     * @var stdClass Plugin configuration
+     */
+    protected $config;
+
+    /**
+     * @var Mustache_Engine Mustache Engine instance
+     */
+    protected $mustache;
+
+    /**
      * Constructor.
      */
     public function __construct() {
