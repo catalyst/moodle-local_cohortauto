@@ -117,6 +117,26 @@ at boundaries specified by the delimiter.
 > * *Language - Spanish*
 > * *Language - Chinese*
 
+#### Accumulated Split arguments
+Synopsis: `%acc_split(fieldname|delimiter)`
+
+This will return multiple cohort names, formed by splitting the field
+at boundaries specified by the delimiter and accumulating the values
+
+* `fieldname` : Profile field name. The same as a tag, but without '{{' and '}}'
+* `delimiter` : The boundary string. 1-5 characters.
+
+> **Example:**
+>
+> User John belongs to the AI section in the University Computer's department
+> The organization is filled as follows: "University-Computers-AI"
+>
+> The main template contains a line: `Organization - %acc_split(department|, )`
+>
+> John will be enrolled in 3 cohorts:
+> * *Organization - University*
+> * *Organization - University-Computers*
+> * *Organization - University-Computers-AI*
 
 ### Empty field text (`secondrule_fld`)
 If profile field is empty, it will be replaced with this value.
